@@ -1,13 +1,12 @@
-package com.rosendo.loja_virtual.domain.marcaProduto;
+package com.rosendo.loja_virtual.domain.categoriaProduto;
 
 import jakarta.persistence.*;
 
 import java.io.Serializable;
 
 @Entity
-@Table(name = "tb_MarcaProduto")
-public class MarcaProduto implements Serializable {
-
+@Table(name = "tb_CategoriaProduto")
+public class CategoriaProduto implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -32,6 +31,4 @@ public class MarcaProduto implements Serializable {
     public void setNome(String nome) {
         this.nome = nome;
     }
-
-
 }
