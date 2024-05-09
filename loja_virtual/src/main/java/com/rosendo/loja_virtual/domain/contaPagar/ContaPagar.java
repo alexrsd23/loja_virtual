@@ -3,12 +3,13 @@ package com.rosendo.loja_virtual.domain.contaPagar;
 import com.rosendo.loja_virtual.domain.pessoa.Pessoa;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "tb_ContaPagar")
-public class ContaPagar {
+public class ContaPagar implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id

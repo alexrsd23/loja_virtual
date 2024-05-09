@@ -4,18 +4,18 @@ import com.rosendo.loja_virtual.domain.contaPagar.ContaPagar;
 import com.rosendo.loja_virtual.domain.pessoa.Pessoa;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "tb_NotaFiscalCompra")
-public class NotaFiscalCompra {
+public class NotaFiscalCompra implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String numeroNota;
     private String serieNota;
     private String descricaoObs;

@@ -2,9 +2,11 @@ package com.rosendo.loja_virtual.domain.formaPagamento;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "tb_FormaPagamento")
-public class FormaPagamento {
+public class FormaPagamento implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id

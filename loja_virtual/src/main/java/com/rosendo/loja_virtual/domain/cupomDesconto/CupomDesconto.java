@@ -2,12 +2,13 @@ package com.rosendo.loja_virtual.domain.cupomDesconto;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "tb_CupomDesconto")
-public class CupomDesconto {
+public class CupomDesconto implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id

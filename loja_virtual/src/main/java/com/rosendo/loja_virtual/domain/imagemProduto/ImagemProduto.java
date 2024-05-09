@@ -3,9 +3,11 @@ package com.rosendo.loja_virtual.domain.imagemProduto;
 import com.rosendo.loja_virtual.domain.produto.Produtos;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "tb_ImagemProduto")
-public class ImagemProduto {
+public class ImagemProduto implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id

@@ -4,9 +4,11 @@ import com.rosendo.loja_virtual.domain.notaFiscalCompra.NotaFiscalCompra;
 import com.rosendo.loja_virtual.domain.produto.Produtos;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "tb_NotaItemProduto")
-public class NotaItemProduto {
+public class NotaItemProduto implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id

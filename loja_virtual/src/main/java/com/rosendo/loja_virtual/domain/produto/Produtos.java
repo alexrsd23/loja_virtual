@@ -2,11 +2,12 @@ package com.rosendo.loja_virtual.domain.produto;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "tb_Produtos")
-public class Produtos {
+public class Produtos implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,6 +18,7 @@ public class Produtos {
     private String nome;
     @Column(nullable = false)
     private String descricao;
+
 //    nota item produto - ASSSOCIAR
     private Double peso;
     private Double largura;
