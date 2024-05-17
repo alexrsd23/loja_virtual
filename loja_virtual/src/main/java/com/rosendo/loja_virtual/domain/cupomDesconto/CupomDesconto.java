@@ -16,11 +16,11 @@ public class CupomDesconto implements Serializable {
     private Long id;
     @Column(nullable = false)
     private String codigoDescricao;
-
+    @Column(nullable = false)
     private BigDecimal valorDinheiro;
-
+    @Column(nullable = false)
     private BigDecimal valorPorcentagem;
-
+    @Column(nullable = false)
     @Temporal(TemporalType.DATE)
     private LocalDate dataExpiracao;
 

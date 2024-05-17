@@ -13,6 +13,7 @@ public class ItemVendaLoja implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false)
     private Double quantidade;
     @ManyToOne(targetEntity = Produtos.class)
     @JoinColumn(name = "produtos_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "produtos_fk"))

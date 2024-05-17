@@ -28,7 +28,9 @@ public class VendaCompraLojaVirtual {
     @ManyToOne(targetEntity = Endereco.class)
     @JoinColumn(name = "enderecoCobranca_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "enderecoCobranca_fk"))
     private Endereco enderecoCobranca;
+    @Column(nullable = false)
     private BigDecimal valorTotal;
+    @Column(nullable = false)
     private BigDecimal valorDesconto;
     @ManyToOne(targetEntity = FormaPagamento.class)
     @JoinColumn(name = "formaPagamento_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "formaPagamento_fk"))
@@ -40,10 +42,13 @@ public class VendaCompraLojaVirtual {
     @JoinColumn(name = "cumpomDesconto_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "cumpomDesconto_fk"))
     private CupomDesconto cumpomDesconto;
     private Integer diasEntrega;
+    @Column(nullable = false)
     private BigDecimal valorFrete;
     @Temporal(TemporalType.DATE)
+    @Column(nullable = false)
     private LocalDate dataVenda;
     @Temporal(TemporalType.DATE)
+    @Column(nullable = false)
     private LocalDate dataEntrega;
 
     public Long getId() {

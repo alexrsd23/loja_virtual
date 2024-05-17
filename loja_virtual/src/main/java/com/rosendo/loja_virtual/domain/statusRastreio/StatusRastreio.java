@@ -12,10 +12,13 @@ public class StatusRastreio implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column(nullable = false)
     private String centroDistribuicao;
+    @Column(nullable = false)
     private String cidade;
+    @Column(nullable = false)
     private String estado;
+    @Column(nullable = false)
     private String status;
 
     @ManyToOne(targetEntity = VendaCompraLojaVirtual.class)

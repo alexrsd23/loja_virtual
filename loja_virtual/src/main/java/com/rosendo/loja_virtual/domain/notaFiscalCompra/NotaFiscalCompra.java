@@ -16,8 +16,11 @@ public class NotaFiscalCompra implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false)
     private String numeroNota;
+    @Column(nullable = false)
     private String serieNota;
+    @Column(nullable = false)
     private String descricaoObs;
     @Column(nullable = false)
     private BigDecimal valorTotal = BigDecimal.ZERO;
@@ -26,6 +29,7 @@ public class NotaFiscalCompra implements Serializable {
     @Column(nullable = false)
     private BigDecimal valorIcms = BigDecimal.ZERO;
     @Temporal(TemporalType.DATE)
+    @Column(nullable = false)
     private LocalDate dataCompra;
     @ManyToOne(targetEntity = Pessoa.class)
     @JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))

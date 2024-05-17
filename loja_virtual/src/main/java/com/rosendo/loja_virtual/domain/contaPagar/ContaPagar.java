@@ -30,13 +30,16 @@ public class ContaPagar implements Serializable {
     private StatusContaPagar statusContaPagar;
 
     @Temporal(TemporalType.DATE)
+    @Column(nullable = false)
     private LocalDate dataVencimento;
 
     @Temporal(TemporalType.DATE)
+    @Column(nullable = false)
     private LocalDate dataPagamento;
 
+    @Column(nullable = false)
     private BigDecimal valorTotal;
-
+    @Column(nullable = false)
     private BigDecimal valorDesconto;
 
     public Long getId() {
