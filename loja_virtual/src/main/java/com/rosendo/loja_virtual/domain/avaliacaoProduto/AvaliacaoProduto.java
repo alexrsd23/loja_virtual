@@ -64,4 +64,19 @@ public class AvaliacaoProduto implements Serializable {
     public void setProdutos(Produtos produtos) {
         this.produtos = produtos;
     }
+
+    public AvaliacaoProduto() {
+    }
+
+    public void atualizarAvaliacaoProduto(AtualizarCadastroAvaliacaoDTO atualizarCadastroAvaliacaoDTO) {
+        this.descricao = atualizarCadastroAvaliacaoDTO.getDescricao();
+        this.nota = atualizarCadastroAvaliacaoDTO.getNota();
+    }
+
+    public AvaliacaoProduto(CadastroAvaliacaoProdutoDTO cadastroAvaliacaoProdutoDTO){
+        this.descricao = cadastroAvaliacaoProdutoDTO.getDescricao();
+        this.nota = cadastroAvaliacaoProdutoDTO.getNota();
+        this.produtos.setId(cadastroAvaliacaoProdutoDTO.getProdutoId());
+        this.pessoa.setId(cadastroAvaliacaoProdutoDTO.getPessoaId());
+    }
 }
