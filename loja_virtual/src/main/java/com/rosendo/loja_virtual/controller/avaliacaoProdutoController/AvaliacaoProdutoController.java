@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Controller
-@RequestMapping("/avaliacoesProduto")
+@RequestMapping("/v1/avaliacoesProduto")
 public class AvaliacaoProdutoController {
 
     @Autowired

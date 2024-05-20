@@ -20,7 +20,10 @@ public class Usuario implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(unique = true, nullable = false)
+    private String email;
+
+    @Column(unique = true, nullable = false)
     private String login;
 
     @Column(nullable = false)
@@ -89,4 +92,75 @@ public class Usuario implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public LocalDate getDataSenha() {
+        return dataSenha;
+    }
+
+    public void setDataSenha(LocalDate dataSenha) {
+        this.dataSenha = dataSenha;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
+    public Usuario() {
+    }
+
+    public Usuario(CadastroUsuarioDTO cadastroUsuarioDTO, Role role) {
+        this.email = cadastroUsuarioDTO.getEmail();
+        this.login = cadastroUsuarioDTO.getLogin();
+        this.senha = cadastroUsuarioDTO.getSenha();
+        this.roles.add(role);
+    }
+
+    public void AtualizarLoginUsuario(AtualizarLoginUsuarioDTO dto) {
+        this.login = dto.getLogin();
+    }
+
+    public void AtualizarSenhaUsuario(AtualizarSenhaUsuarioDTO dto){
+        this.senha = dto.getSenha();
+    }
+
+    public void AtualizarEmailUsuario(AtualizarEmailUsuarioDTO dto){
+        this.email = dto.getEmail();
+    }
+
 }

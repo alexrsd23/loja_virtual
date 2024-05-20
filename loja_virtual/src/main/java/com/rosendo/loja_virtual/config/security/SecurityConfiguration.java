@@ -13,7 +13,7 @@ public class SecurityConfiguration{
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeRequests()
-                .requestMatchers("/avaliacoesProduto").permitAll()
+                .requestMatchers("/**").permitAll()
                 .anyRequest().authenticated();
         return httpSecurity.build();
 
