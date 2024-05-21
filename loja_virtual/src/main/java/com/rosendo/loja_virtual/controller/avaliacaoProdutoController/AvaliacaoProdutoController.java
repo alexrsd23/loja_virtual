@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Controller
 @RequestMapping("/v1/avaliacoesProduto")
+//@Tag(name = "Avaliação do produto")
 public class AvaliacaoProdutoController {
 
     @Autowired

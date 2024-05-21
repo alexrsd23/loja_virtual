@@ -5,6 +5,7 @@ import com.rosendo.loja_virtual.domain.usuario.DetalhesUsuarioDTO;
 import com.rosendo.loja_virtual.domain.usuario.Usuario;
 import com.rosendo.loja_virtual.services.usuarioService.UsuarioService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,7 @@ import java.net.URI;
 @Controller
 @RequestMapping("/v1/usuarios")
 public class UsuarioController {
+    @Autowired
     private UsuarioService usuarioService;
 
     @PostMapping

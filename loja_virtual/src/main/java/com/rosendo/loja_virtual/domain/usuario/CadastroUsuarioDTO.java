@@ -52,4 +52,14 @@ public class CadastroUsuarioDTO {
     public void setDataSenha(LocalDate dataSenha) {
         this.dataSenha = dataSenha;
     }
+
+    @Override
+    public String toString() {
+        return "CadastroUsuarioDTO{" +
+                "email='" + email + '\'' +
+                ", login='" + login + '\'' +
+                ", senha='" + senha + '\'' +
+                ", dataSenha=" + dataSenha +
+                '}';
+    }
 }

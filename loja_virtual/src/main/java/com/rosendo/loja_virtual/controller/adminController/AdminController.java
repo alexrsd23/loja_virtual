@@ -6,6 +6,7 @@ import com.rosendo.loja_virtual.domain.usuario.DetalhesUsuarioDTO;
 import com.rosendo.loja_virtual.domain.usuario.Usuario;
 import com.rosendo.loja_virtual.services.usuarioService.UsuarioService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,16 +20,17 @@ import java.net.URI;
 @RequestMapping("/v1/admin")
 @PreAuthorize("hasRole('ROLE_ADMIN')")
 public class AdminController {
+    @Autowired
     private UsuarioService usuarioService;
 
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable Long id){
+    @DeleteMapping("/deletar/")
+    public ResponseEntity<Void> deletar(@RequestParam(value="id", required=true) Long id) {
         usuarioService.deletar(id);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping
+    @GetMapping("/buscarTodosAdmin")
     public ResponseEntity<Page<DetalhesUsuarioDTO>> buscarTodosAdmin(
             @RequestParam(value="page", required=false, defaultValue="0") Integer page,
             @RequestParam (value="size", required=false, defaultValue="10") Integer size,
@@ -41,7 +43,7 @@ public class AdminController {
         return ResponseEntity.ok(pageAdmins);
     }
 
-    @GetMapping("usuario")
+    @GetMapping("/buscarTodosUsuarios")
     public ResponseEntity<Page<DetalhesUsuarioDTO>> buscarTodosUsuarios(
             @RequestParam (value="page", required=false, defaultValue="0") Integer page,
             @RequestParam (value="size", required=false, defaultValue="10") Integer size,
@@ -53,7 +55,7 @@ public class AdminController {
         return ResponseEntity.ok(pageUsuarios);
     }
 
-    @PostMapping
+    @PostMapping("/criarAdministrador")
     public ResponseEntity<DetalhesUsuarioDTO> salvarAdmin(@RequestBody @Valid CadastroUsuarioDTO dto){
         Usuario usuario = usuarioService.salvarAdmin(dto);
         URI uri = ServletUriComponentsBuilder
@@ -65,7 +67,7 @@ public class AdminController {
         return ResponseEntity.created(uri).body(new DetalhesUsuarioDTO(usuario));
     }
 
-    @PatchMapping("tornarAdmin/{id}")
+    @PatchMapping("/tornarAdmin/{id}")
     ResponseEntity<Void> tornarAdmin(@PathVariable Long id) {
         usuarioService.tornarAdmin(id);
         return ResponseEntity.ok().build();

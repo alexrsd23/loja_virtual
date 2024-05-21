@@ -32,29 +32,8 @@ public class Usuario implements UserDetails {
     @Temporal(TemporalType.DATE)
     private LocalDate dataSenha;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "tb_usuario_role",
-            uniqueConstraints = @UniqueConstraint(columnNames = {"usuario_id", "role_id"}, name = "unique_role_user"),
-            joinColumns = @JoinColumn(
-                    name = "usuario_id",
-                    referencedColumnName = "id",
-                    table = "tb_Usuario",
-                    unique = false,
-                    foreignKey = @ForeignKey(
-                            name = "usuario_fk",
-                            value = ConstraintMode.CONSTRAINT
-                    )),
-            inverseJoinColumns = @JoinColumn(
-                    name = "role_id",
-                    referencedColumnName = "id",
-                    table = "tb_Role",
-                    unique = false,
-                    foreignKey = @ForeignKey(
-                            name = "role_fk",
-                            value = ConstraintMode.CONSTRAINT
-                    ))
-    )
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "tb_usuario_role")
     private List<Role> roles = new ArrayList<>();
 
 

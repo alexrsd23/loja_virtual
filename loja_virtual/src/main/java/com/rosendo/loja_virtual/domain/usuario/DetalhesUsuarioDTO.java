@@ -14,6 +14,54 @@ public class DetalhesUsuarioDTO {
     private LocalDate dataSenha;
     private List<Role> roles = new ArrayList<>();
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public LocalDate getDataSenha() {
+        return dataSenha;
+    }
+
+    public void setDataSenha(LocalDate dataSenha) {
+        this.dataSenha = dataSenha;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
     public DetalhesUsuarioDTO(Usuario usuario) {
         this.id = usuario.getId();
         this.email = usuario.getEmail();
@@ -21,5 +69,17 @@ public class DetalhesUsuarioDTO {
         this.senha = usuario.getSenha();
         this.dataSenha = usuario.getDataSenha();
         this.roles = usuario.getRoles();
+    }
+
+    @Override
+    public String toString() {
+        return "DetalhesUsuarioDTO{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", login='" + login + '\'' +
+                ", senha='" + senha + '\'' +
+                ", dataSenha=" + dataSenha +
+                ", roles=" + roles +
+                '}';
     }
 }

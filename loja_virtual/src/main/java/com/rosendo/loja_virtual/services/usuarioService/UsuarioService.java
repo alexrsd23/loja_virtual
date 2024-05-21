@@ -22,21 +22,28 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 @Service
-public class UsuarioService{
+public class UsuarioService {
+
+    private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final RoleRepository roleRepository;
+
     @Autowired
-    private UsuarioRepository usuarioRepository;
-    private PasswordEncoder passwordEncoder;
-    private RoleRepository roleRepository;
+    public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
+        this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.roleRepository = roleRepository;
+    }
 
     @Transactional
-	public Usuario salvarAdmin(CadastroUsuarioDTO dto) {
-		return salvar(dto, roleRepository.findByRoleName(RoleName.ROLE_ADMIN));
-	}
+    public Usuario salvarAdmin(CadastroUsuarioDTO dto) {
+        return salvar(dto, roleRepository.findByRoleName(RoleName.ROLE_ADMIN));
+    }
 
-	@Transactional
-	public Usuario salvarUsuario(CadastroUsuarioDTO dto) {
-		return salvar(dto, roleRepository.findByRoleName(RoleName.ROLE_USER));
-	}
+    @Transactional
+    public Usuario salvarUsuario(CadastroUsuarioDTO dto) {
+        return salvar(dto, roleRepository.findByRoleName(RoleName.ROLE_USER));
+    }
 
     private Usuario salvar(CadastroUsuarioDTO dto , Optional<Role> role){
         Usuario usuario = new Usuario(dto, role
