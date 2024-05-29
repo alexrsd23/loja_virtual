@@ -1,5 +1,7 @@
 package com.rosendo.loja_virtual.controller.usuarioController;
 
+import com.rosendo.loja_virtual.config.defaultMessages.DefaultMessages;
+import com.rosendo.loja_virtual.config.defaultMessages.MensagemResposta;
 import com.rosendo.loja_virtual.domain.usuario.CadastroUsuarioDTO;
 import com.rosendo.loja_virtual.domain.usuario.DetalhesUsuarioDTO;
 import com.rosendo.loja_virtual.domain.usuario.Usuario;
@@ -23,8 +25,8 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
-    @PostMapping
-    public ResponseEntity<DetalhesUsuarioDTO> salvarUsuario(@RequestBody @Valid CadastroUsuarioDTO dto){
+    @PostMapping("/criarUsuario")
+    public ResponseEntity<MensagemResposta> salvarUsuario(@RequestBody @Valid CadastroUsuarioDTO dto) {
         Usuario usuario = usuarioService.salvarUsuario(dto);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -32,6 +34,8 @@ public class UsuarioController {
                 .buildAndExpand(usuario.getId())
                 .toUri();
 
-        return ResponseEntity.created(uri).body(new DetalhesUsuarioDTO(usuario));
+        String mensagem = DefaultMessages.getMensagemCriacaoSucesso("Usuário");
+        MensagemResposta resposta = new MensagemResposta(mensagem);
+        return ResponseEntity.created(uri).body(resposta);
     }
 }

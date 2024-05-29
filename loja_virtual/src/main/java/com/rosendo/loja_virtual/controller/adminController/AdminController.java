@@ -1,5 +1,7 @@
 package com.rosendo.loja_virtual.controller.adminController;
 
+import com.rosendo.loja_virtual.config.defaultMessages.DefaultMessages;
+import com.rosendo.loja_virtual.config.defaultMessages.MensagemResposta;
 import com.rosendo.loja_virtual.config.role.RoleName;
 import com.rosendo.loja_virtual.domain.usuario.CadastroUsuarioDTO;
 import com.rosendo.loja_virtual.domain.usuario.DetalhesUsuarioDTO;
@@ -24,10 +26,12 @@ public class AdminController {
     private UsuarioService usuarioService;
 
 
-    @DeleteMapping("/deletar/")
-    public ResponseEntity<Void> deletar(@RequestParam(value="id", required=true) Long id) {
+    @DeleteMapping("/deletar")
+    public ResponseEntity<MensagemResposta> deletar(@RequestParam(value="id", required=true) Long id) {
         usuarioService.deletar(id);
-        return ResponseEntity.noContent().build();
+        String mensagem = DefaultMessages.getMensagemRemocaoSucesso("Usuário");
+        MensagemResposta resposta = new MensagemResposta(mensagem);
+        return ResponseEntity.ok(resposta);
     }
 
     @GetMapping("/buscarTodosAdmin")
@@ -56,7 +60,7 @@ public class AdminController {
     }
 
     @PostMapping("/criarAdministrador")
-    public ResponseEntity<DetalhesUsuarioDTO> salvarAdmin(@RequestBody @Valid CadastroUsuarioDTO dto){
+    public ResponseEntity<MensagemResposta> salvarAdmin(@RequestBody @Valid CadastroUsuarioDTO dto){
         Usuario usuario = usuarioService.salvarAdmin(dto);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -64,12 +68,17 @@ public class AdminController {
                 .buildAndExpand(usuario.getId())
                 .toUri();
 
-        return ResponseEntity.created(uri).body(new DetalhesUsuarioDTO(usuario));
+        String mensagem = DefaultMessages.getMensagemCriacaoSucesso("Administrador");
+        MensagemResposta resposta = new MensagemResposta(mensagem);
+        return ResponseEntity.created(uri).body(resposta);
     }
 
-    @PatchMapping("/tornarAdmin/{id}")
-    ResponseEntity<Void> tornarAdmin(@PathVariable Long id) {
+    @PatchMapping("/tornarAdmin")
+    public ResponseEntity<MensagemResposta> tornarAdmin(@RequestParam(value="id", required=true) Long id) {
         usuarioService.tornarAdmin(id);
-        return ResponseEntity.ok().build();
+
+        String mensagem = DefaultMessages.getMensagemAtualizacaoSucesso("Usuário");
+        MensagemResposta resposta = new MensagemResposta(mensagem);
+        return ResponseEntity.ok(resposta);
     }
 }

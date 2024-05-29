@@ -53,19 +53,6 @@ public class ExceptionHandlerController {
     }
 
 
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<StandardError> dataIntegrityViolationException(DataIntegrityViolationException ex, HttpServletRequest request) {
-        StandardError standardError = new StandardError(
-                LocalDateTime.now(),
-                request.getRequestURI(),
-                HttpStatus.UNPROCESSABLE_ENTITY.value(),
-                "Entidade não processável",
-                ex.getMessage() != null ? ex.getMessage() : "A operação não pode ser completada devido a um problema de integridade de dados."
-        );
-        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(standardError);
-    }
-
-
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<StandardError> methodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex, HttpServletRequest request) {
         StandardError standardError = new StandardError(
@@ -189,6 +176,26 @@ public class ExceptionHandlerController {
                 ex.getMessage() != null ? ex.getMessage() : "Você não tem permissão para acessar este recurso."
         );
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(standardError);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<StandardError> handleDataIntegrityViolationException(
+            DataIntegrityViolationException ex, HttpServletRequest request) {
+        String message = "A operação não pode ser completada devido a um problema de integridade de dados.";
+
+        // Verifica se a mensagem da exceção contém informação específica sobre a violação de chave única
+        if (ex.getMessage() != null && ex.getMessage().contains("constraint")) {
+            message = "Erro: O e-mail ou login já existe.";
+        }
+
+        StandardError error = new StandardError(
+                LocalDateTime.now(),
+                request.getRequestURI(),
+                HttpStatus.UNPROCESSABLE_ENTITY.value(),
+                "Entidade não processável",
+                message
+        );
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(error);
     }
 
 }

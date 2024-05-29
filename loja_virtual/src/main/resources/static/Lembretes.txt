@@ -1,0 +1,7 @@
+Deve-e criar as permissions dos user manualmente no banco de dados
+
+Não se usa mais a classe do springfox para mapear a API, agora de-se usar o springdoc
+
+Quando tiver trabalhando com o jwt, e quiser realizar testes não basta apenas colocar um permit all em todos os endpoints,
+é necessario tambem colocar que o csrf deve estar desabilitado, com base nesta resposta:
+https://stackoverflow.com/questions/51174601/status-403-error-forbidden-message-forbidden-path-post-crea
