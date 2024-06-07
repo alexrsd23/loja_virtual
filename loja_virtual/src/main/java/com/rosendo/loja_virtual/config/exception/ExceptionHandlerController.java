@@ -7,6 +7,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
+import org.springframework.dao.InvalidDataAccessResourceUsageException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -196,6 +197,28 @@ public class ExceptionHandlerController {
                 message
         );
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(error);
+    }
+
+    @ExceptionHandler(InvalidDataAccessResourceUsageException.class)
+    public ResponseEntity<StandardError> handleInvalidDataAccessResourceUsageException(
+            InvalidDataAccessResourceUsageException ex, HttpServletRequest request) {
+        String message = "Erro no acesso ao recurso: ";
+
+        // Verifica se a mensagem da exceção contém informação específica sobre a ausência da tabela "tb_role"
+        if (ex.getMessage() != null && ex.getMessage().contains("relation \"tb_role\" does not exist")) {
+            message += "A tabela 'tb_role' não existe no banco de dados.";
+        } else {
+            message += ex.getMessage();
+        }
+
+        StandardError error = new StandardError(
+                LocalDateTime.now(),
+                request.getRequestURI(),
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                "Erro Interno",
+                message
+        );
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
 
 }
