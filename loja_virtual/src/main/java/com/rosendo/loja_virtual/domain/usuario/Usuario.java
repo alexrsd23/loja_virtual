@@ -2,6 +2,8 @@ package com.rosendo.loja_virtual.domain.usuario;
 
 import com.rosendo.loja_virtual.config.role.Role;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -20,7 +22,9 @@ public class Usuario implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @NotBlank(message = "O email é obrigatório")
+    @Email(message = "Email inválido")
+    @Column(unique = true)
     private String email;
 
     @Column(unique = true, nullable = false)
