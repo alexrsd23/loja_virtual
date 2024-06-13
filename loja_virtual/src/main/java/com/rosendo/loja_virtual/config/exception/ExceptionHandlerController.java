@@ -20,27 +20,25 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.time.LocalDateTime;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @RestControllerAdvice
 public class ExceptionHandlerController {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ValidationError> handleValidationException(MethodArgumentNotValidException ex, HttpServletRequest request) {
+    public ResponseEntity<ValidationError> bindException(
+            MethodArgumentNotValidException ex, HttpServletRequest request) {
         ValidationError error = new ValidationError(
                 LocalDateTime.now(),
                 request.getRequestURI(),
                 HttpStatus.BAD_REQUEST.value(),
-                "Erro de Validação",
-                "Erro na validação de atributos"
-        );
+                "Validation Error",
+                "Erro na validação de atributos");
 
         ex.getBindingResult().getFieldErrors().forEach(e ->
                 error.addError(e.getField(), e.getDefaultMessage())
         );
-
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(error);
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
@@ -182,22 +180,13 @@ public class ExceptionHandlerController {
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<StandardError> handleDataIntegrityViolationException(DataIntegrityViolationException ex, HttpServletRequest request) {
+    public ResponseEntity<StandardError> handleDataIntegrityViolationException(
+            DataIntegrityViolationException ex, HttpServletRequest request) {
         String message = "A operação não pode ser completada devido a um problema de integridade de dados.";
 
-        // Expressão regular para capturar "Chave (campo)=(valor) já existe"
-        Pattern pattern = Pattern.compile("Chave \\(([^)]+)\\)=\\(([^)]+)\\) já existe");
-        Matcher matcher = pattern.matcher(ex.getMessage());
-
-        if (matcher.find()) {
-            String campo = matcher.group(1);
-            String valor = matcher.group(2);
-
-            if (campo.equals("email")) {
-                message = "Erro: O email informado já existe.";
-            } else if (campo.equals("login")) {
-                message = "Erro: O login informado já existe.";
-            }
+        // Verifica se a mensagem da exceção contém informação específica sobre a violação de chave única
+        if (ex.getMessage() != null && ex.getMessage().contains("constraint")) {
+            message = "Erro: O e-mail ou login já existe.";
         }
 
         StandardError error = new StandardError(
@@ -207,10 +196,8 @@ public class ExceptionHandlerController {
                 "Entidade não processável",
                 message
         );
-
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(error);
     }
-
 
     @ExceptionHandler(InvalidDataAccessResourceUsageException.class)
     public ResponseEntity<StandardError> handleInvalidDataAccessResourceUsageException(
@@ -233,6 +220,5 @@ public class ExceptionHandlerController {
         );
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
-
 
 }

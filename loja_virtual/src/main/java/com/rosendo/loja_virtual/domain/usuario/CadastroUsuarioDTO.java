@@ -1,7 +1,6 @@
 package com.rosendo.loja_virtual.domain.usuario;
 
 import com.rosendo.loja_virtual.config.role.Role;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -11,8 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CadastroUsuarioDTO {
-    @NotBlank(message = "O email é obrigatório")
-    @Email(message = "Email inválido")
+    @NotBlank(message = "email é necessário.")
     private String email;
     @NotBlank(message = "login é necessário.")
     @Size(min = 4, max = 10, message="É necessário ter entre 4 e 10 caracteres.")
