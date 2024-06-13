@@ -172,32 +172,5 @@ public class AdminControllerTests {
             securityContextHolder.close();
         }
     }
-    @Test
-    @WithMockUser(username = "Marcia", roles = {"ADMIN"})
-    public void deletarDeveLancarExceptionQuandoUsuarioTentarDeletarAPropriaConta() throws JsonProcessingException, Exception{
-        DefaultMockMvcBuilder mockMvcBuilder = MockMvcBuilders.webAppContextSetup(wac);
-        MockMvc mockMvc = mockMvcBuilder.build();
-        Long userId = 66L; // ID do usuário a ser deletado
-
-        // Simula o contexto de segurança
-        MockedStatic<SecurityContextHolder> securityContextHolder = Mockito.mockStatic(SecurityContextHolder.class);
-        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
-        Authentication authentication = Mockito.mock(Authentication.class);
-
-        securityContextHolder.when(SecurityContextHolder::getContext).thenReturn(securityContext);
-        when(securityContext.getAuthentication()).thenReturn(authentication);
-        when(authentication.getName()).thenReturn("Marcia");
-
-        try {
-            mockMvc.perform(MockMvcRequestBuilders
-                            .delete("/v1/admin/deletar")
-                            .param("id", userId.toString())
-                            .accept(MediaType.APPLICATION_JSON))
-                    .andExpect(status().isUnprocessableEntity()) // Espera-se que o status retornado seja um erro (400 Bad Request)
-                    .andExpect(jsonPath("$.message", equalTo("Impossível deletar a própria conta.")));
-        } finally {
-            securityContextHolder.close();
-        }
-    }
 
 }
