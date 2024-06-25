@@ -43,8 +43,8 @@ public class AdminControllerTests {
 
         cadastroUsuarioDTO = new CadastroUsuarioDTO();
         cadastroUsuarioDTO.setDataSenha(LocalDate.now());
-        cadastroUsuarioDTO.setLogin("Virginia");
-        cadastroUsuarioDTO.setEmail("Virginiateste@email.com");
+        cadastroUsuarioDTO.setLogin("Marcia");
+        cadastroUsuarioDTO.setEmail("marcia@email.com");
         cadastroUsuarioDTO.setSenha("Cont@12345");
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -67,8 +67,8 @@ public class AdminControllerTests {
 
         cadastroUsuarioDTO = new CadastroUsuarioDTO();
         cadastroUsuarioDTO.setDataSenha(LocalDate.now());
-        cadastroUsuarioDTO.setLogin("Marcia");
-        cadastroUsuarioDTO.setEmail("marcia@email.com");
+        cadastroUsuarioDTO.setLogin("Virgia");
+        cadastroUsuarioDTO.setEmail("Virginiateste@email.com");
         cadastroUsuarioDTO.setSenha("Cont@12345");
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -122,8 +122,8 @@ public class AdminControllerTests {
 
         cadastroUsuarioDTO = new CadastroUsuarioDTO();
         cadastroUsuarioDTO.setDataSenha(LocalDate.now());
-        cadastroUsuarioDTO.setLogin("MarciaFreitas");
-        cadastroUsuarioDTO.setEmail("marciafreitas@email.com");
+        cadastroUsuarioDTO.setLogin("MarciaFarias");
+        cadastroUsuarioDTO.setEmail("marciatesteFreitas@email.com");
         cadastroUsuarioDTO.setSenha("Cont@12345");
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -145,7 +145,7 @@ public class AdminControllerTests {
         DefaultMockMvcBuilder mockMvcBuilder = MockMvcBuilders.webAppContextSetup(wac);
         MockMvc mockMvc = mockMvcBuilder.build();
 
-        Long adminId = 71L; // ID do administrador a ser deletado
+        Long adminId = 2L; // ID do administrador a ser deletado
 
         String mensagemEsperada = "Requisição completa: Usuário foi removido com sucesso!";
 
@@ -169,4 +169,33 @@ public class AdminControllerTests {
             securityContextHolder.close();
         }
     }
+
+    @Test
+    @WithMockUser(username = "Marcia", roles = {"ADMIN"})
+    public void deletarDeveLancarExceptionQuandoUsuarioTentarDeletarAPropriaConta() throws JsonProcessingException, Exception {
+        DefaultMockMvcBuilder mockMvcBuilder = MockMvcBuilders.webAppContextSetup(wac);
+        MockMvc mockMvc = mockMvcBuilder.build();
+        Long userId = 1L; // ID do usuário a ser deletado
+
+        // Simula o contexto de segurança
+        MockedStatic<SecurityContextHolder> securityContextHolder = Mockito.mockStatic(SecurityContextHolder.class);
+        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
+        Authentication authentication = Mockito.mock(Authentication.class);
+
+        securityContextHolder.when(SecurityContextHolder::getContext).thenReturn(securityContext);
+        when(securityContext.getAuthentication()).thenReturn(authentication);
+        when(authentication.getName()).thenReturn("Marcia");
+
+        try {
+            mockMvc.perform(MockMvcRequestBuilders
+                            .delete("/v1/admin/deletar")
+                            .param("id", userId.toString())
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isUnprocessableEntity()) // Espera-se que o status retornado seja 422 Unprocessable Entity
+                    .andExpect(jsonPath("$.message", equalTo("Impossível deletar a própria conta.")));
+        } finally {
+            securityContextHolder.close();
+        }
+    }
+
 }

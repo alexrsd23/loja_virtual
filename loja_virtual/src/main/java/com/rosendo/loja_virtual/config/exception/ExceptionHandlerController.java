@@ -3,6 +3,7 @@ package com.rosendo.loja_virtual.config.exception;
 import com.rosendo.loja_virtual.domain.usuario.exceptions.CredenciaisInvalidasException;
 import com.rosendo.loja_virtual.domain.usuario.exceptions.ForbiddenException;
 import com.rosendo.loja_virtual.domain.usuario.exceptions.IntegridadeDeSistemaException;
+import com.rosendo.loja_virtual.domain.usuario.exceptions.PropriaContaException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -211,7 +212,17 @@ public class ExceptionHandlerController {
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(error);
     }
 
-
+    @ExceptionHandler(PropriaContaException.class)
+    public ResponseEntity<StandardError> propriaContaException(PropriaContaException ex, HttpServletRequest request) {
+        StandardError error = new StandardError(
+                LocalDateTime.now(),
+                request.getRequestURI(),
+                HttpStatus.UNPROCESSABLE_ENTITY.value(),
+                "Requisição inválida",
+                ex.getMessage()
+        );
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(error);
+    }
     @ExceptionHandler(InvalidDataAccessResourceUsageException.class)
     public ResponseEntity<StandardError> handleInvalidDataAccessResourceUsageException(
             InvalidDataAccessResourceUsageException ex, HttpServletRequest request) {

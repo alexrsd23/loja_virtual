@@ -3,6 +3,7 @@ package com.rosendo.loja_virtual.services.usuarioService;
 import com.rosendo.loja_virtual.config.role.Role;
 import com.rosendo.loja_virtual.config.role.RoleName;
 import com.rosendo.loja_virtual.domain.usuario.*;
+import com.rosendo.loja_virtual.domain.usuario.exceptions.PropriaContaException;
 import com.rosendo.loja_virtual.repository.roleRepository.RoleRepository;
 import com.rosendo.loja_virtual.repository.usuarioRepository.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -120,7 +121,7 @@ public class UsuarioService {
         );
 
         if (usuario.getLogin().equals(nomeUsuario)) {
-            throw new DataIntegrityViolationException("Impossível deletar a própria conta.");
+            throw new PropriaContaException("Impossível deletar a própria conta.");
         }
 
         usuarioRepository.delete(usuario);
