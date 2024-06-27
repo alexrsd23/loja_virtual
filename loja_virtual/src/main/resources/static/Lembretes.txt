@@ -1,7 +1,8 @@
-Deve-e criar as permissions dos user manualmente no banco de dados
+1- As permissões dos usuários devem ser configuradas manualmente no banco de dados.
 
-Não se usa mais a classe do springfox para mapear a API, agora de-se usar o springdoc
+2- A classe do Springfox não é mais utilizada para mapear a API; agora deve-se usar o Springdoc.
 
-Quando tiver trabalhando com o jwt, e quiser realizar testes não basta apenas colocar um permit all em todos os endpoints,
-é necessario tambem colocar que o csrf deve estar desabilitado, com base nesta resposta:
-https://stackoverflow.com/questions/51174601/status-403-error-forbidden-message-forbidden-path-post-crea
+3- Ao trabalhar com JWT e realizar testes, não basta apenas configurar permitAll em todos os endpoints. É necessário também desabilitar o CSRF, conforme indicado nesta resposta: https://stackoverflow.com/questions/51174601/status-403-error-forbidden-message-forbidden-path-post-crea.
+
+4- Quando a configuração ddl no arquivo de configurações está definida como none, isso significa que a manutenção das tabelas do banco de dados é responsabilidade do versionador, e não mais do JPA.
+
