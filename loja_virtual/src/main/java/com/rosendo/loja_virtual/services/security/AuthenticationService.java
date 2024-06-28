@@ -7,7 +7,7 @@ import com.rosendo.loja_virtual.domain.usuario.DetalhesUsuarioDTO;
 import com.rosendo.loja_virtual.domain.usuario.Usuario;
 import com.rosendo.loja_virtual.domain.usuario.exceptions.CredenciaisInvalidasException;
 import com.rosendo.loja_virtual.repository.usuarioRepository.UsuarioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,13 +16,13 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 
 @Service
+@RequiredArgsConstructor
 public class AuthenticationService {
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-    private AuthenticationManager authenticationManager;
-    @Autowired
-    private JwtService jwtService;
+    private final UsuarioRepository usuarioRepository;
+
+    private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse autenticar(RequisicaoLogin request) {
         validarCredenciais(request);
@@ -37,10 +37,10 @@ public class AuthenticationService {
         var claims = new HashMap<String, Object>();
         claims.put("email", usuarioAutenticado.getEmail());
         var jwtToken = jwtService.generateToken(claims, usuarioAutenticado);
-        AuthenticationResponse authenticationResponse = new AuthenticationResponse();
-        authenticationResponse.setToken(jwtToken);
-        authenticationResponse.setUsuario(new DetalhesUsuarioDTO(usuarioAutenticado));
-        return authenticationResponse;
+        return AuthenticationResponse.builder()
+                .token(jwtToken)
+                .usuario(new DetalhesUsuarioDTO(usuarioAutenticado))
+                .build();
     }
     private void validarCredenciais(RequisicaoLogin request) {
         Usuario usuario = usuarioRepository.findByUsername(request.getLogin())

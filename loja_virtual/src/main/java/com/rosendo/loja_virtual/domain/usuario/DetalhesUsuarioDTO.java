@@ -10,7 +10,6 @@ public class DetalhesUsuarioDTO {
     private Long id;
     private String email;
     private String login;
-    private String senha;
     private LocalDate dataSenha;
     private List<Role> roles = new ArrayList<>();
 
@@ -38,14 +37,6 @@ public class DetalhesUsuarioDTO {
         this.login = login;
     }
 
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
     public LocalDate getDataSenha() {
         return dataSenha;
     }
@@ -66,7 +57,6 @@ public class DetalhesUsuarioDTO {
         this.id = usuario.getId();
         this.email = usuario.getEmail();
         this.login = usuario.getLogin();
-        this.senha = usuario.getSenha();
         this.dataSenha = usuario.getDataSenha();
         this.roles = usuario.getRoles();
     }
@@ -77,7 +67,6 @@ public class DetalhesUsuarioDTO {
                 "id=" + id +
                 ", email='" + email + '\'' +
                 ", login='" + login + '\'' +
-                ", senha='" + senha + '\'' +
                 ", dataSenha=" + dataSenha +
                 ", roles=" + roles +
                 '}';

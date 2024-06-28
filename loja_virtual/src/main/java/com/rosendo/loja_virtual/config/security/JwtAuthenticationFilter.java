@@ -3,6 +3,7 @@ package com.rosendo.loja_virtual.config.security;
 import java.io.IOException;
 import java.util.Date;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,10 +23,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.log4j.Log4j2;
 
 @Component
+@RequiredArgsConstructor
 @Log4j2
 public class JwtAuthenticationFilter implements Filter {
-    private JwtService jwtService;
-    private UserDetailsService userDetailsService;
+    private final JwtService jwtService;
+    private final UserDetailsService userDetailsService;
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain)
